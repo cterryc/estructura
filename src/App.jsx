@@ -1,6 +1,22 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 
+// function suma (x, y) {
+//   return x + y
+// }
+
 function App () {
+  const [personajes, setPersonajes] = useState([])
+  useEffect(() => {
+    fetch('https://rickandmortyapi.com/api/character')
+      .then((datos) => datos.json())
+      .then((datos) => {
+        return setPersonajes(datos.results)
+      })
+  }, [])
+  useEffect(() => {
+    console.log(personajes)
+  }, [personajes])
   return (
     <div className='global'>
       <div className='navbar'>
@@ -39,7 +55,15 @@ function App () {
             <button>unknown</button>
           </div>
         </div>
-        <div className='cards'>Cards</div>
+        <div className='cards'>{personajes.map((elemento, index) => {
+          return (
+            <div key={index}>
+              <h1>{elemento.name}</h1>
+              <h2>{elemento.id}</h2>
+            </div>
+          )
+        })}
+        </div>
       </div>
       <div>
         <button>Botones</button>
